@@ -71,9 +71,9 @@ int main(int argc, char const *argv[]) {
   
   
   /* connections + requests */
-  printf("Accepting connection...\n\n");
+
   while (1) {
-     //printf("\nWaiting for new connection . . .\n\n");
+    printf("\n+++++++ Waiting for connections ++++++++\n\n");
      int client = accept(server_fd, 
 			(struct sockaddr*) &client_addr, 
 			&len);
@@ -135,13 +135,16 @@ int main(int argc, char const *argv[]) {
        printf("request_path: %s\n", request_path);
        memmove (file_name, request_path+1, strlen (request_path+1) + 1);
        int len = strlen(file_name);
-       printf("File_name: %s length: %d\n", file_name,len);
        
+       printf("File_name: %s length: %d\n", file_name,len);
+      
        //Open file
        file = fopen(file_name, "r");
        if (!file)
         {
          perror("File not Found!\n");
+          fclose(file);
+          close(client);
        return NULL;
        }
 
