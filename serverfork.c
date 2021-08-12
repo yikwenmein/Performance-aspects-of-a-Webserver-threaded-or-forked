@@ -11,6 +11,10 @@ int main(int argc, char const *argv[]) {
 	   perror("usage:./serverfork IP:PORT\n");
 	   exit(1);
 	}
+	char delim[]=":";
+     char *Desthost=strtok(argv[1],delim);
+     char *Destport=strtok(NULL,delim);
+     int port = atoi(Destport);
   signal(SIGCHLD, SIG_IGN);
 
   char buffer[BUFF_SIZE + 1];      
@@ -42,10 +46,10 @@ int main(int argc, char const *argv[]) {
         exit(EXIT_FAILURE);
     }
     
-
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons( PORT );
+    address.sin_family = AF_INET; 
+    address.sin_addr.s_addr = inet_addr(Desthost);
+    address.sin_port = htons( port);
+    
     
     memset(address.sin_zero, '\0', sizeof address.sin_zero);
     
